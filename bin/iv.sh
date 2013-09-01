@@ -44,8 +44,12 @@ _config() {
 
 join() {
   # join the server
-  ii -s $1 -n $(_config user) -p $(_config port) -i $(_config location)
+  local port=$(_config port)
+  local location=$(_config location)
+
+  nohup ii -s $1 -n $(_config user) -p ${port:-6667} -i ${location:-"$HOME/irc"} &> /dev/null &
   # write the command-files
 }
 
 _check_config
+$@
