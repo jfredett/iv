@@ -16,3 +16,36 @@
 #   - removes the room command and stuff
 # leaving a server
 #   - removes the server command and stuff
+
+_check_config() {
+  if [ -z $IV_CONFIG_FILE ] ; then
+    echo 'Must set $IV_CONFIG_FILE'
+    exit 1
+  fi
+
+  if [ -z $(_config user) ] ; then
+    echo 'Must set user=<name> in $IV_CONFIG_FILE'
+    exit 2
+  fi
+} >&2
+
+_config() {
+  local key=$1
+
+  if [ $2 ] ; then
+    #delete the key as it exists
+    #add it to the config
+    echo "here"
+  else
+    # grep out the value of the key
+    cat "$IV_CONFIG_FILE" | grep $key | sed -n s/$key=//p
+  fi
+}
+
+join() {
+  # join the server
+  ii -s $1 -n $(_config user) -p $(_config port) -i $(_config location)
+  # write the command-files
+}
+
+_check_config
