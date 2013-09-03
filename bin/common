@@ -11,20 +11,10 @@ _check_config() {
     exit 11
   fi
 
-  if [ -z $(_config user) ] ; then
-    echo 'Must set user=<name> in $IV_CONFIG_FILE'
-    exit 20
-  fi
-
-  if [ -z $(_config bin_path) ] ; then
-    echo 'Must provide bin_path=<path to write scripts>'
-    exit 21
-  fi
-
-  local bin_path=$(_config bin_path)
+  local bin_path=$(config bin_path)
   if [ -d "'${bin_path}'" ] ; then
     echo "Specified bin_path ('$bin_path') must exist"
-    exit 22
+    exit 20
   fi
 
   if [[ $PATH =~ ":'$bin_path':" ]] ; then
@@ -45,4 +35,28 @@ _config() {
     # grep out the value of the key
     cat "$IV_CONFIG_FILE" | grep $key | sed -n s/$key=//p
   fi
+}
+
+_config_help() {
+  echo "TODO"
+}
+
+config() {
+  case $1 in
+    location)
+      local loc=$(_config location)
+      echo ${loc:-$HOME/irc}
+      ;;
+    user)
+      local user=$(_config user)
+      echo ${user:-$USER}
+      ;;
+    bin_path)
+      local bin_path=$(_config bin_path)
+      echo ${bin_path:-$(config location)/bin/}
+      ;;
+    --help) _config_help ;;
+    *) _config $@ ;;
+  esac
+
 }
