@@ -31,9 +31,12 @@ join() {
   # join the server
   local port=$(_config port)
   local location=$(_config location)
+  local user=$(_config user)
+  local server=$1
 
-  nohup ii -s $1 -n $(_config user) -p ${port:-6667} -i ${location:-"$HOME/irc"} &> /dev/null &
+  nohup ii -s $server -n $user -p ${port:-6667} -i ${location:-"$HOME/irc"} &> /dev/null &
   # write the command-files
+  echo "\$IV_SERVER_NAME=$server iv_server" > "$(_config bin_path)/$server"
 }
 
 help() {
@@ -48,7 +51,6 @@ iv join <server url> -- join selected server on default port
 HERE
 }
 alias 'usage'=help
-
 
 _check_config
 $@
