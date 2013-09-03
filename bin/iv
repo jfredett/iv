@@ -36,5 +36,19 @@ join() {
   # write the command-files
 }
 
+help() {
+  cat <<HERE
+iv -- a suite of helper scripts for ii
+
+USAGE:
+
+iv help              -- print this message
+iv join <server url> -- join selected server on default port
+
+HERE
+}
+alias 'usage'=help
+
+
 _check_config
 $@
