@@ -17,6 +17,15 @@
 # leaving a server
 #   - removes the server command and stuff
 
+# creating the command really just writes a wrapper with some environment
+# variables set. eg:
+#
+# ie `iv join '#lpmc'`
+# would yield a command like:
+# #=> IV_CHANNEL='lpmc' channel.sh $@
+#
+
+
 _check_config() {
   if [ -z $IV_CONFIG_FILE ] ; then
     echo 'Must set $IV_CONFIG_FILE'
