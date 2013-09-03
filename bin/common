@@ -21,10 +21,17 @@ _check_config() {
     exit 21
   fi
 
-  if [[ $PATH =~ ":$(_config bin_path):" ]] ; then
-    echo "$(_config bin_path) must be included on \$PATH"
+  local bin_path=$(_config bin_path)
+  if [ -d "'${bin_path}'" ] ; then
+    echo "Specified bin_path ('$bin_path') must exist"
+    exit 22
+  fi
+
+  if [[ $PATH =~ ":'$bin_path':" ]] ; then
+    echo "$bin_path must be included on \$PATH"
     exit 30
   fi
+
 } >&2
 
 _config() {
