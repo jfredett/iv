@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+_check_config() {
+  if [ -z $IV_CONFIG_FILE ] ; then
+    echo 'Must set $IV_CONFIG_FILE'
+    exit 10
+  fi
+
+  if [ ! -w $IV_CONFIG_FILE -a -r $IV_CONFIG_FILE ] ; then
+    echo "\$IV_CONFIG_FILE must exist and be readable and writable by $USER"
+    exit 11
+  fi
+
+  if [ -z $(_config user) ] ; then
+    echo 'Must set user=<name> in $IV_CONFIG_FILE'
+    exit 20
+  fi
+
+  if [ -z $(_config bin_path) ] ; then
+    echo 'Must provide bin_path=<path to write scripts>'
+    exit 21
+  fi
+
+  if [[ $PATH =~ ":$(_config bin_path):" ]] ; then
+    echo "$(_config bin_path) must be included on \$PATH"
+    exit 30
+  fi
+} >&2
+
+_config() {
+  local key=$1
+
+  if [ $2 ] ; then
+    #delete the key as it exists
+    #add it to the config
+    echo "here"
+  else
+    # grep out the value of the key
+    cat "$IV_CONFIG_FILE" | grep $key | sed -n s/$key=//p
+  fi
+}
