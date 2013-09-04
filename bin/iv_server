@@ -18,6 +18,10 @@ _input() {
   echo "$1" > "$(_ii_path)/in"
 }
 
+_output_path() {
+  echo "$(_ii_path)/out"
+}
+
 new() {
   if [ $IV_SERVER_NAME ] ; then
     echo "Cannot call new on a server that already seems to exist!"
@@ -44,7 +48,6 @@ pid() {
   cat $(_pid_path)
 }
 
-
 halt() {
   kill $(pid)        # stop the process
   rm $(_bin_path)    # remove the iv bin
@@ -55,6 +58,10 @@ halt() {
 
 join() {
   _input "/join '$1'"
+}
+
+watch() {
+  tail -f $(_output_path)
 }
 
 $@
