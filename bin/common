@@ -65,6 +65,10 @@ config() {
       local pid_path=$(_config pid_path)
       echo ${pid_path:-$(config location)/pid}
       ;;
+    port)
+      local port=$(_config port)
+      echo ${port:-6667}
+      ;;
     --help) _config_help ;;
     *) _config $@ ;;
   esac
