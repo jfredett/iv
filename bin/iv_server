@@ -1,25 +1,9 @@
 #!/usr/bin/env bash
 
-source $(dirname `readlink -f $0`)/common
-
-_pid_path() {
-  echo -n $(config pid_path)/${1:-$IV_SERVER_NAME}
-}
-
-_bin_path() {
-  echo -n $(config bin_path)/${1:-$IV_SERVER_NAME}
-}
-
-_ii_path() {
-  echo -n $(config location)/${1:-$IV_SERVER_NAME}
-}
+source $(dirname `readlink -f $0`)/iv_base
 
 _input() {
   echo "$1" > "$(_ii_path)/in"
-}
-
-_output_path() {
-  echo "$(_ii_path)/out"
 }
 
 _check_process_alive() {
@@ -63,7 +47,7 @@ halt() {
 }
 
 join() {
-  _input "/join '$1'"
+  iv_channel new $IV_SERVER_NAME $1
 }
 
 watch() {

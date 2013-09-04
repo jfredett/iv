@@ -25,7 +25,7 @@
 # #=> IV_CHANNEL='lpmc' channel.sh $@
 #
 
-source $(dirname `readlink -f $0`)/common
+source $(dirname `readlink -f $0`)/iv_config
 
 join() {
   if [ -z $1 ] ; then
