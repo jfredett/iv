@@ -53,5 +53,6 @@ HERE
 }
 alias 'usage'=help
 
+_check_dependencies
 _check_config
 $@

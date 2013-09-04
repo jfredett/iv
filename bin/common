@@ -30,6 +30,12 @@ _check_config() {
 
 } >&2
 
+_check_dependencies() {
+  if ! which timeout &>/dev/null ; then
+    echo 'Missing dependency `timeout`'; exit 40
+  fi
+} >&2
+
 _config() {
   local key=$1
 
