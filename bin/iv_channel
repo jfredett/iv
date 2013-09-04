@@ -6,9 +6,7 @@ new() {
   local server=$1
   local channel=${2###}
 
-  set -x
   $server _input "/join #$channel"
-  set +x
 
   echo "IV_SERVER_NAME=$server IV_CHANNEL_NAME='#$channel' iv_channel new \$@" > $(_bin_path $channel)
 }
