@@ -3,7 +3,9 @@
 source $(dirname `readlink -f $0`)/iv_base
 
 _input() {
+  set -x
   echo "$@" > "$(_ii_path)/in"
+  set +x
 }
 
 _check_process_alive() {
@@ -24,8 +26,7 @@ new() {
   local user=$4
 
   # start the server
-  # TODO: log nohup.out to location/log?
-  nohup ii -s $server -p $port -i $location -n $user &>/dev/null&
+  nohup ii -s $server -p $port -i $location -n $user &>$(_log_path)&
   # save the pid
   echo $! > $(_pid_path $server)
   # write the command-files
@@ -42,6 +43,7 @@ halt() {
   _check_process_alive && kill $(pid) # stop the process if it's still alive
   rm $(_bin_path)                     # remove the iv bin
   rm $(_pid_path)                     # remove the saved pid
+  rm $(_log_path)                     # remove the error log
   # TODO: make this archive the ii files
   rm -rf $(_ii_path)                  # remove the ii files too
 }

@@ -14,6 +14,11 @@ _ii_path() {
   echo -n $(config location)/${1:-$IV_SERVER_NAME}
 }
 
+_log_path() {
+  echo -n $(config log_path)/${1:-$IV_SERVER_NAME}.log
+}
+
 _output_path() {
   echo "$(_ii_path)/out"
 }
+

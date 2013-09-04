@@ -23,6 +23,12 @@ _check_config() {
     exit 20
   fi
 
+  local log_path=$(config log_path)
+  if [ -d "'${log_path}'" ] ; then
+    echo "Specified log_path ('$log_path') must exist"
+    exit 20
+  fi
+
   if [[ $PATH =~ ":'$bin_path':" ]] ; then
     echo "$bin_path must be included on \$PATH"
     exit 30
@@ -74,6 +80,10 @@ config() {
     port)
       local port=$(_config port)
       echo ${port:-6667}
+      ;;
+    log_path)
+      local log_path=$(_config port)
+      echo ${log_path:-$(config location)/log}
       ;;
     --help) _config_help ;;
     *) _config $@ ;;
