@@ -22,6 +22,12 @@ _output_path() {
   echo "$(_ii_path)/out"
 }
 
+_check_process_alive() {
+  # the spaces around `pid` eliminates false positives where `pid` exists
+  # as a substring of another pid
+  [ $(pid) ] && ps aux | grep " $(pid) " | grep -v grep
+} &> /dev/null
+
 new() {
   if [ $IV_SERVER_NAME ] ; then
     echo "Cannot call new on a server that already seems to exist!"
@@ -49,11 +55,11 @@ pid() {
 }
 
 halt() {
-  kill $(pid)        # stop the process
-  rm $(_bin_path)    # remove the iv bin
-  rm $(_pid_path)    # remove the saved pid
+  _check_process_alive && kill $(pid) # stop the process if it's still alive
+  rm $(_bin_path)                     # remove the iv bin
+  rm $(_pid_path)                     # remove the saved pid
   # TODO: make this archive the ii files
-  rm -rf $(_ii_path) # remove the ii files too
+  rm -rf $(_ii_path)                  # remove the ii files too
 }
 
 join() {
@@ -64,4 +70,10 @@ watch() {
   tail -f $(_output_path)
 }
 
-$@
+if _check_process_alive || [ $1 = 'new' ] ; then
+  $@
+else
+  echo "Process died, halting and cleaning up"
+  halt
+  exit 101
+fi
