@@ -59,7 +59,7 @@ config() {
       ;;
     bin_path)
       local bin_path=$(_config bin_path)
-      echo ${bin_path:-$(config location)/bin/}
+      echo ${bin_path:-$(config location)/bin}
       ;;
     pid_path)
       local pid_path=$(_config pid_path)
