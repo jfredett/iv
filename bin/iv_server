@@ -36,4 +36,8 @@ new() {
   chmod a+x $(_bin_path $server)
 }
 
+pid() {
+  cat $(_pid_path)
+}
+
 $@
