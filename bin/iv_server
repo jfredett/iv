@@ -40,4 +40,13 @@ pid() {
   cat $(_pid_path)
 }
 
+
+halt() {
+  kill $(pid)        # stop the process
+  rm $(_bin_path)    # remove the iv bin
+  rm $(_pid_path)    # remove the saved pid
+  # TODO: make this archive the ii files
+  rm -rf $(_ii_path) # remove the ii files too
+}
+
 $@
