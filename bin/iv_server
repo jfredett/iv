@@ -1,1 +1,39 @@
 #!/usr/bin/env bash
+
+source $(dirname `readlink -f $0`)/common
+
+_pid_path() {
+  echo -n $(config pid_path)/${1:-$IV_SERVER_NAME}
+}
+
+_bin_path() {
+  echo -n $(config bin_path)/${1:-$IV_SERVER_NAME}
+}
+
+_ii_path() {
+  echo -n $(config location)/${1:-$IV_SERVER_NAME}
+}
+
+new() {
+  if [ $IV_SERVER_NAME ] ; then
+    echo "Cannot call new on a server that already seems to exist!"
+    exit 51
+  fi
+
+  local server=$1
+  local port=$2
+  local location=$3
+  local user=$4
+
+  # start the server
+  # TODO: log nohup.out to location/log?
+  nohup ii -s $server -p $port -i $location -n $user &>/dev/null&
+  # save the pid
+  echo $! > $(_pid_path $server)
+  # write the command-files
+  echo "IV_SERVER_NAME=$server iv_server \$@" > $(_bin_path $server)
+  # make them executable
+  chmod a+x $(_bin_path $server)
+}
+
+$@

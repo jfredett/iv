@@ -28,15 +28,16 @@
 source $(dirname `readlink -f $0`)/common
 
 join() {
-  # join the server
-  local port=$(_config port)
-  local location=$(_config location)
-  local user=$(_config user)
-  local server=$1
+  if [ -z $1 ] ; then
+    echo "must provide a server URL to join"
+    exit 50
+  fi
 
-  nohup ii -s $server -n $user -p ${port:-6667} -i ${location:-"$HOME/irc"} &> /dev/null &
-  # write the command-files
-  echo "\$IV_SERVER_NAME=$server iv_server" > "$(_config bin_path)/$server"
+  local port=$(config port)
+  local location=$(config location)
+  local user=$(config user)
+
+  iv_server new $1 ${2:-$port} ${3:-$location} ${4:-$user}
 }
 
 help() {
