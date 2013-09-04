@@ -14,6 +14,10 @@ _ii_path() {
   echo -n $(config location)/${1:-$IV_SERVER_NAME}
 }
 
+_input() {
+  echo "$1" > "$(_ii_path)/in"
+}
+
 new() {
   if [ $IV_SERVER_NAME ] ; then
     echo "Cannot call new on a server that already seems to exist!"
@@ -47,6 +51,10 @@ halt() {
   rm $(_pid_path)    # remove the saved pid
   # TODO: make this archive the ii files
   rm -rf $(_ii_path) # remove the ii files too
+}
+
+join() {
+  _input "/join '$1'"
 }
 
 $@
