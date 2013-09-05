@@ -25,7 +25,7 @@
 # #=> IV_CHANNEL='lpmc' channel.sh $@
 #
 
-source $(dirname `readlink -f $0`)/iv_config
+source $(dirname `readlink -f $0`)/iv_scripts/config
 
 join() {
   if [ -z $1 ] ; then
@@ -37,7 +37,15 @@ join() {
   local location=$(config location)
   local user=$(config user)
 
-  iv_server new $1 ${2:-$port} ${3:-$location} ${4:-$user}
+  server new $1 ${2:-$port} ${3:-$location} ${4:-$user}
+}
+
+server() {
+  $(dirname `readlink -f $0`)/iv_scripts/server $@
+}
+
+channel() {
+  $(dirname `readlink -f $0`)/iv_scripts/channel $@
 }
 
 help() {
