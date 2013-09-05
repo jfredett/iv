@@ -40,6 +40,13 @@ _check_dependencies() {
   if ! which timeout &>/dev/null ; then
     echo 'Missing dependency `timeout`'; exit 40
   fi
+
+  if ! which find &>/dev/null ; then
+    echo 'Missing dependency `find`' ; exit 41
+    if ! find . -maxdepth 0 &>/dev/null ; then
+      echo 'Must support `find` with `-maxdepth` option' ; exit 42
+    fi
+  fi
 } >&2
 
 _config() {

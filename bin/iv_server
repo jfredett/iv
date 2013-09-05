@@ -54,6 +54,10 @@ watch() {
   tail -f $(_output_path)
 }
 
+channels() {
+  find $IV_SERVER_NAME/* -maxdepth 1 -type d
+}
+
 if _check_process_alive || [ $1 = 'new' ] ; then
   $@
 else
