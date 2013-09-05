@@ -24,4 +24,10 @@ say() {
   _input $@
 }
 
+part() {
+  _input '/part'
+  #TODO: Archive the data instead of just removing it
+  rm -rf $(_ii_path)/$IV_CHANNEL_NAME
+}
+
 $@
