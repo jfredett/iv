@@ -2,6 +2,7 @@
 
 source $(dirname `readlink -f $0`)/iv_base
 
+
 new() {
   local server=$1
   local channel=${2###}
@@ -10,6 +11,18 @@ new() {
 
   echo "IV_SERVER_NAME=$server IV_CHANNEL_NAME='#$channel' iv_channel \$@" > $(_bin_path $channel)
   chmod a+x $(_bin_path $channel)
+}
+
+_input() {
+  echo "$@" > $(_ii_path)/$IV_CHANNEL_NAME/in
+}
+
+watch() {
+  tail -f $(_ii_path)/$IV_CHANNEL_NAME/out
+}
+
+say() {
+  _input $@
 }
 
 $@
