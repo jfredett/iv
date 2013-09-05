@@ -24,7 +24,7 @@ new() {
   local user=$4
 
   # start the server
-  nohup ii -s $server -p $port -i $location -n $user &>$(_log_path)&
+  nohup ii -s $server -p $port -i $location -n $user &>$(_log_path $server)&
   # save the pid
   echo $! > $(_pid_path $server)
   # write the command-files
