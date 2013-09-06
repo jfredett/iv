@@ -10,10 +10,15 @@ new() {
   local server=$1
   local channel=${2###}
 
-  $server "_input" "/join #$channel"
+  $server _input /j "#$channel"
 
   echo "IV_SERVER_NAME=$server IV_CHANNEL_NAME='#$channel' iv channel \$@" > $(_bin_path $channel)
   chmod a+x $(_bin_path $channel)
+  # ii doesn't build the outfile till it's needed, I need it immediately, so
+  # I'll just touch it
+
+  mkdir -p $(_ii_path)/\#$channel
+  touch $(_ii_path)/\#$channel/out
 }
 
 watch() {
@@ -25,9 +30,11 @@ say() {
 }
 
 part() {
-  _input '/part'
+  _input '/l'
   #TODO: Archive the data instead of just removing it
-  rm -rf $(_ii_path)/$IV_CHANNEL_NAME
+  rm -rf "$(_ii_path)/#${IV_CHANNEL_NAME###}/"
+  #XXX: This is a bit abusive, since base directly references $IV_SERVER_NAME
+  rm -rf "$(_bin_path ${IV_CHANNEL_NAME###})/"
 }
 
 $@
