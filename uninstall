@@ -1,0 +1,2 @@
+rm /usr/local/bin/iv
+rm -rf /usr/local/bin/iv_scripts/

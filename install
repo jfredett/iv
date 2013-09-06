@@ -1,0 +1,2 @@
+cp iv /usr/local/bin/iv
+cp iv_scripts /usr/local/bin/iv_scripts -R
