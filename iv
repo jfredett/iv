@@ -23,6 +23,13 @@ channel() {
   $(dirname `readlink -f $0`)/iv_scripts/channel $@
 }
 
+init() {
+  mkdir -p $(config location)
+  mkdir -p $(config bin_path)
+  mkdir -p $(config log_path)
+  mkdir -p $(config pid_path)
+}
+
 help() {
   cat <<HERE
 iv -- a suite of helper scripts for ii
