@@ -9,7 +9,7 @@ _input() {
 _check_process_alive() {
   # the spaces around `pid` eliminates false positives where `pid` exists
   # as a substring of another pid
-  [ $(pid) ] && ps aux | grep " $(pid) " | grep -v grep
+  [ "$(pid)" ] && ps aux | grep " $(pid) " | grep -v grep
 } &> /dev/null
 
 new() {
@@ -63,7 +63,7 @@ channels() {
   find $IV_SERVER_NAME/* -maxdepth 1 -type d
 }
 
-if _check_process_alive || [ '$1' = 'new' ] ; then
+if [ "$1" = 'new' ] ; then
   $@
 else
   echo "Process died, halting and cleaning up"
